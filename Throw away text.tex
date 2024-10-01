@@ -1,0 +1,96 @@
+ \begin{enumerate}
+        \setlength{\itemsep}{0pt}
+        \item $E\left[z_{t,S}w_{t}^{\prime}(c)\right]=0$ and $E\left[w_{t}(c)\varepsilon_{t}\right]=0$: Valid IV and valid control;
+        \item $E\left[z_{t,S}w_{t}^{\prime}(c)\right]=0$ and $E\left[w_{t}(c)\varepsilon_{t}\right]\ne 0$: Invalid IV but valid control;
+        \item $E\left[z_{t,S}w_{t}^{\prime}(c)\right]\ne0$ and $E\left[w_{t}(c)\varepsilon_{t}\right]=0$: Valid IV;
+        \item $E\left[z_{t,S}w_{t}^{\prime}(c)\right]\ne 0$ and $E\left[w_{t}(c)\varepsilon_{t}\right]\ne 0$: Invalid IV and control.
+        \vspace{-3mm}
+    \end{enumerate}
+
+
+    %% DAG 图
+         \begin{tikzpicture}[baseline=(current bounding box.north),arrow/.style={->, >=latex', thick, draw=black},bidirectional/.style={<->, >=latex', thick, draw=black}]
+% Redefining positions for a more compact layout
+\node (Zs) at (-0.5, 1) {$Z_S$};
+\node (Zu) at (5, -3) {$Z_U$};
+\node (ZA0) at (-3, 2) {$Z_{A_0}$};
+\node (ZA1) at (2.5, 2) {$Z_{A_1}$};
+\node (ZB1) at (5, 1) {$Z_{B_1}$};
+\node (ZB2) at (5, -1) {$Z_{B_2}$};
+\node (E) at (1, -5) {E};
+\node (U) at (2.5, -3) {U};
+\node (V) at (-0.5, -3) {V};
+\node (X) at (-0.5, -1) {X};
+\node (Y) at (2.5, -1) {Y};
+\node (ZB0) at (7, -1) {$Z_{B_0}$}; % Moving Z_{B_0} closer
+% Redrawing arrows
+\draw [->] (Zs) -- (ZA1);
+\draw [->] (Zs) -- (X);
+\draw [->] (Zu) -- (U);
+\draw [->] (ZA0) -- (X);
+\draw [->] (ZA1) -- (X);
+\draw [->] (ZA1) -- (ZB1);
+\draw [->] (U) -- (ZB1);
+\draw [->] (U) -- (ZB2);
+\draw [->] (Zs) -- (ZB2);
+\draw [->] (E) -- (U);
+\draw [->] (U) -- (Y);
+\draw [<->] (ZA0) -- (ZA1);
+\draw [<->] (V) -- (E);
+\draw [->] (X) -- (Y);
+\draw [->] (V) -- (X);
+\end{tikzpicture}
+
+
+   \begin{table}
+          \renewcommand{\arraystretch}{1.2}
+\begin{centering}
+\vspace{-5mm}
+\caption{Estimation results with known types, $T=1000$}
+\vspace{-10mm}
+\begin{tabular}{cccccc}
+\hline 
+$(z_{A_0},z_{A_1}),(z_{B_1},z_{U})$ & Prob Select & Bias & SD & RMSE & Coverage Prob of 95\% CI\tabularnewline
+\hline 
+(0,0),(0,0) & 0.0000 & -0.0003 & 0.0683 & 0.0683 & 0.9460\tabularnewline
+(0,0),(0,1) & 0.0000 & -0.0012 & 0.0573 & 0.0573 & 0.9480\tabularnewline
+(0,0),(1,0) & 0.0000 & -0.0129 & 0.0661 & 0.0673 & 0.9570\tabularnewline
+(0,0),(1,1) & 0.0000 & -0.0098 & 0.0561 & 0.0569 & 0.9550\tabularnewline
+(0,1),(0,0) & 0.0000 & 0.0019 & 0.0426 & 0.0427 & 0.9440\tabularnewline
+(0,1),(0,1) & 0.0000 & 0.0019 & 0.0337 & 0.0338 & 0.9560\tabularnewline
+(0,1),(1,0) & 0.0000 & -0.0360 & 0.0432 & 0.0562 & 0.9120\tabularnewline
+(0,1),(1,1) & 0.0000 & -0.0243 & 0.0353 & 0.0428 & 0.9360\tabularnewline
+(1,0),(0,0) & 0.0000 & 0.0028 & 0.0433 & 0.0434 & 0.9460\tabularnewline
+(1,0),(0,1) & 0.0000 & 0.0023 & 0.0341 & 0.0341 & 0.9480\tabularnewline
+(1,0),(1,0) & 0.0000 & -0.0027 & 0.0414 & 0.0414 & 0.9530\tabularnewline
+(1,0),(1,1) & 0.0000 & -0.0015 & 0.0331 & 0.0331 & 0.9560\tabularnewline
+(1,1),(0,0) & 0.0000 & 0.0029 & 0.0338 & 0.0339 & 0.9420\tabularnewline
+\textbf{(1,1),(0,1)} & \textbf{0.9970} & \textbf{0.0027} & \textbf{0.0266} & \textbf{0.0267} & \textbf{0.9500}\tabularnewline
+(1,1),(1,0) & 0.0000 & -0.0202 & 0.0333 & 0.0390 & 0.9270\tabularnewline
+(1,1),(1,1) & 0.0030 & -0.0132 & 0.0270 & 0.0300 & 0.9470\tabularnewline
+Selected  & - & 0.0028 & 0.0266 & 0.0268 & 0.9500\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+\centering{}
+\end{table}
+
+
+
+    We generate $\left(z_{t,S},z_{t,A_{0}},z_{t,A_{1}},z_{t,B_{0}},z_{t,B_{1}}^{*},z_{t,B_{2}}^{*},z_{t,U},e_{t},v_{t}\right)\sim N(0,\Sigma)$ with $\Sigma={diag}\left(\Sigma_{AS},\Sigma_{B},\Sigma_{ZU},\Sigma_{ev}\right)$,  where $\Sigma_{AS}$,$\Sigma_{B}$,$\Sigma_{ZU}$,$\Sigma_{ev}$ are $3\times3$,$1\times 1$, $1\times1$ and $2\times2$ variance-covariance matrices respectively. 
+    
+    By construction,$(z_{t,S},z_{t,A_{0}},z_{t,A_{1}},z_{t,B_{0}},z_{t,B_{1}}^{*})$ are all valid IV but only $(z_{t,S},z_{t,A_{0}},z_{t,A_{1}})$ are relevant. The invalid IVs $z_{t,B_{1}}$ are obtained by contaminating $z_{t,B_{1}}^{*} $with error $u_{t} $ and $z_{t,A_{1}}$ and $z_{t,B_{2}}$ are obtained by contaminating $z_{t,B_{2}}^{*}$ with both errors $u_{t}$ and $z_{t,S}$. Specifically,
+    $$\vspace{-3mm}
+    z_{t,B_{1}}=z_{t,B_{1}}^{*}+c_{0}\times u_{t}+c_{A_1}\times z_{t,A_{1}},\quad z_{t,B_{2}}=z_{t,B_{2}}^{*}+c_0\times u_{t}+c_{B_{2}}\times z_{t,S}\vspace{-1mm}.
+    $$
+    The parameter value we use are as follows and the above DAG describes the relationships of these variables.
+    \begin{itemize}[label=$\bullet$]
+        \item $\beta_{0}=0.5$, $\gamma_S=0.3$,$\gamma_{A_0}=0.5$, $\gamma_{A_1} = 0.5$, $c_0=0.4$, $\gamma_U = 0.5$, $c_{A_1}=0.1$
+        \item $\Sigma_{AS}(i,i) = 1$ for $i=1,2,3$,  $\Sigma_{AS}(1,3)=\Sigma_{AS}(3,1) = 0.2$ and zeros elsewhere.
+        \item  $\Sigma_{ZU}=1$, $\Sigma_{ev} = [0.5,0.6;0.6,1]$.
+    \end{itemize}
+
+    The objective of the selection and estimation process is to
+    \begin{itemize}[label=$\bullet$]
+       \item choose $z_{t,A_0},z_{t,A_1}$ as additional IVs;
+       \item choose $z_{t,U}$ as additional control.

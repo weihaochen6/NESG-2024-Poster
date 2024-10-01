@@ -1,0 +1,37 @@
+%% LyX 2.3.6.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,lmargin=20mm,rmargin=20mm}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{table}
+Probability of selecting two types and selecting the true
+\begin{centering}
+\begin{tabular}{ccccc}
+\hline 
+Sample size & Prob $Ez_{t}w_{t}=0$ & Prob $Ew_{t}\varepsilon_{t}=0$ & Prob True & Prob Efficient\tabularnewline
+\hline 
+$T=500$ & 0.8220 & 0.8870 & 0.7360  & 0.8720\tabularnewline
+$T=1000$ & 0.9810 & 0.9580 & 0.9390 & 0.9530\tabularnewline
+$T=2000$ & 0.9990  & 0.9930  & 0.9920 & 0.9900\tabularnewline
+\hline 
+\end{tabular} 
+\par\end{centering}
+\centering{}\caption{Adaptive Lasso Selection Results}
+\end{table}
+
+\end{document}

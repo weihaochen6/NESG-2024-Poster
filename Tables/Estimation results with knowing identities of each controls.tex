@@ -1,0 +1,52 @@
+%% LyX 2.3.6.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,lmargin=20mm,rmargin=20mm}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{table}
+Selected Probability(SP), Finite sample bias (BS), Standard Deviation
+(SD) and RMSE (RE), Coverage Probabilies of 95\%
+\begin{centering}
+\begin{tabular}{cccccc}
+\hline 
+$T=1000$ & SP & BS & SD & RE & CP\tabularnewline
+\hline 
+(0,0),(0,0) & 0.0000 & -0.0003 & 0.0683 & 0.0683 & 0.9460\tabularnewline
+(0,0),(0,1) & 0.0000 & -0.0012 & 0.0573 & 0.0573 & 0.9480\tabularnewline
+(0,0),(1,0) & 0.0000 & -0.0129 & 0.0661 & 0.0673 & 0.9570\tabularnewline
+(0,0),(1,1) & 0.0000 & -0.0098 & 0.0561 & 0.0569 & 0.9550\tabularnewline
+(0,1),(0,0) & 0.0000 & 0.0019 & 0.0426 & 0.0427 & 0.9440\tabularnewline
+(0,1),(0,1) & 0.0000 & 0.0019 & 0.0337 & 0.0338 & 0.9560\tabularnewline
+(0,1),(1,0) & 0.0000 & -0.0360 & 0.0432 & 0.0562 & 0.9120\tabularnewline
+(0,1),(1,1) & 0.0000 & -0.0243 & 0.0353 & 0.0428 & 0.9360\tabularnewline
+(1,0),(0,0) & 0.0000 & 0.0028 & 0.0433 & 0.0434 & 0.9460\tabularnewline
+(1,0),(0,1) & 0.0000 & 0.0023 & 0.0341 & 0.0341 & 0.9480\tabularnewline
+(1,0),(1,0) & 0.0000 & -0.0027 & 0.0414 & 0.0414 & 0.9530\tabularnewline
+(1,0),(1,1) & 0.0000 & -0.0015 & 0.0331 & 0.0331 & 0.9560\tabularnewline
+(1,1),(0,0) & 0.0000 & 0.0029 & 0.0338 & 0.0339 & 0.9420\tabularnewline
+(1,1),(0,1) & 0.9970 & 0.0027 & 0.0266 & 0.0267 & 0.9500\tabularnewline
+(1,1),(1,0) & 0.0000 & -0.0202 & 0.0333 & 0.0390 & 0.9270\tabularnewline
+(1,1),(1,1) & 0.0030 & -0.0132 & 0.0270 & 0.0300 & 0.9470\tabularnewline
+Selected  & - & 0.0028 & 0.0266 & 0.0268 & 0.9500\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+\centering{}\caption{Estimation results with knowing identities of each controls}
+\end{table}
+
+\end{document}

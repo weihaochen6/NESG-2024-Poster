@@ -1,0 +1,425 @@
+% Gemini theme
+% https://github.com/anishathalye/gemini
+%
+% We try to keep this Overleaf template in sync with the canonical source on
+% GitHub, but it's recommended that you obtain the template directly from
+% GitHub to ensure that you are using the latest version.
+
+\documentclass[final]{beamer}
+
+% ====================
+% Packages
+% ====================
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[size=custom,width=84,height=60,scale=1.0]{beamerposter}
+\usetheme{gemini}
+\usecolortheme{gemini}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{svg}
+\pgfplotsset{compat=1.14}
+
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,lmargin=20mm,rmargin=20mm}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{mathrsfs}
+\usepackage{babel}
+\usepackage{bm} % 加载bm包来使用\bm命令
+\usepackage{enumitem} % 引入宏包以便更灵活地控制列表环境
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\usepackage{lmodern}
+\setbeamerfont{title}{size=\small,series=\bfseries,family=\rmfamily} % 减小标题字体大小
+\setbeamerfont{normal text}{family=\rmfamily}
+\setbeamerfont{block title}{size=\normalsize,series=\bfseries,family=\sffamily}
+\setbeamerfont{block body}{size=\small,family=\rmfamily}
+
+
+% ====================
+% Lengths
+% ====================
+
+% If you have N columns, choose \sepwidth and \colwidth such that
+% (N+1)*\sepwidth + N*\colwidth = \paperwidth
+\newlength{\sepwidth}
+\newlength{\colwidth}
+\setlength{\sepwidth}{0.025\paperwidth}
+\setlength{\colwidth}{0.3\paperwidth}
+
+\newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
+
+% ====================
+% Title
+% ====================
+\renewcommand{\baselinestretch}{0.8}
+\setlength{\parskip}{0mm}
+
+\title{Adding valid and variance-reducing controls}
+
+\author{ Weihao Chen\inst{1} \and Otilia Boldea\inst{1}  \and Pavel Čížek \inst{1}}
+
+\institute[shortinst]{\inst{1} Department of Econometrics \& OR, Tilburg University }
+
+% ====================
+% Footer (optional)
+% ====================
+
+\footercontent{
+  \href{http://www.nesg.nl/}{http://www.nesg.nl/} \hfill
+  NESG Conference 2024, Maastricht \hfill
+  \href{mailto:w.chen@uvt.nl}{w.chen@uvt.nl}}
+% (can be left out to remove footer)
+
+% ====================
+% Logo (optional)
+% ====================
+
+% use this to include logos on the left and/or right side of the header:
+\logoright{\includegraphics[height=5cm]{departmentlogo.jpg}}
+\logoleft{\includegraphics[height=5cm]{Tilburg-University-logo.png}}
+
+% ====================
+% Body
+% ====================
+
+\begin{document}
+\begin{frame}[t]
+\begin{columns}[t]
+\separatorcolumn
+
+\begin{column}{\colwidth}
+  \begin{block}{Introduction}
+  \vspace{-5mm}
+  \begin{itemize}[label=$\bullet$]
+      \item most of the literature has focused on selecting external instruments to increase efficiency.
+      \item we focus on selecting controls.
+      \item we propose using adaptive group lasso to select valid controls and prove its consistency.
+      \item among the valid controls and instruments, we propose a selection criterion to minimize variance of a target parameter estimate and prove its consistency.
+       \item applicable to causal inference in micro and macro (local projections).
+  \end{itemize}
+  \end{block}
+  \vspace{-5mm}
+\begin{block}{Theory}
+\heading{Model, validity condition and types of controls}
+Consider the following \textbf{short and long linear model} with parameter of interest $\beta_0$ 
+     $$
+     y_{t}=x'_{t}\beta_{0}+\varepsilon_{t},\quad y_{t}=x'_{t}\beta_{0}+w'_{t}(c)\gamma_{0}(c)+u_{t}(c)
+     $$
+     where $w_{t}$ is a $p_w\times 1$  vector of candidate set of controls and $c\in C$ is a selection vector, where $C=\left\{ c=\left(c_{1},\ldots c_{p_{w}}\right)^{\prime};c_{j}=0,1 \text{ for all }j\right\}$. And we also have a finite set of valid instruments, i.e., $p_z\times 1$ vector $z_{t}$. 
+     
+     \begin{itemize}[label = \bullet]
+         \item \textbf{The short moment conditions:}
+            $$
+    E\left[z_{t}\varepsilon_{t}\right]=E\left[z_{t}(y_{t}-x_{t}^{\prime}\beta_{0})\right]=0
+    ,
+    $$
+         \item \textbf{The long moment conditions:}
+         $$
+    E\left[z_{t}\left(\varepsilon_{t}-w'_{t}(c)\gamma(c)\right)\right]=0,
+    $$
+    $$
+    E\left[w_{t}(c)\left[\varepsilon_{t}-w_{t}(c)\gamma(c)\right]\right]=0.
+    $$
+     \end{itemize}
+    
+    A selection vector $c$  is \textbf{valid} if and only if 
+    $$
+    E\left[z_{t}w_{t}^{\prime}(c)\right]E\left[w_{t}(c)w_{t}^{\prime}(c)\right]^{-1}E\left[w_{t}(c)\varepsilon_{t}\right] = 0.
+    $$
+    The above condition holds when either one of following holds:
+    \begin{itemize}[label = \bullet]
+        \item $E\left[z_{t}w^{\prime}(c)\right]=0$, Instruments Uncorrelated (IU);
+        \item $E\left[w_{t}(c)\varepsilon_{t}\right]=0$, Error Uncorrelated (EU).
+    \end{itemize}
+    The above conditions define four types of  selection vectors: IUEU,IUEC,ICEU,ICEC with first three valid. 
+
+    \heading{Adding EU as moments}
+    For the EU types, we notice that it is actually an additional moment condition for $\beta_0$, we show that adding the control as a additional instrument is asymptotically no less efficient compared to adding as a control to short model.
+
+    \textbf{Theorem} For $c_{EU}$ satisfying $E\left[w_{t}(c_{EU})\varepsilon_{t}\right]=0$, under regularity conditions the optimal GMM estimator based on 
+    $$
+        E(z_t \varepsilon_t) = 0,\quad E\left[w_{t}(c_{EU})\varepsilon_{t}\right]=0
+    $$
+    is asymptotically no less efficient than the optimal GMM estimator based on long moment conditions with $c_{EU}$.
+    \begin{itemize}[label = \triangle]
+        \item It is not worse if we add $w_{t}(c_{EU})$ as additional moment and this avoids the problem that pooling EU and IU into short model as controls may destroy validity.
+    \end{itemize}
+
+    \heading{Selecting valid controls}
+        For $j=1,\cdots,p_w$, we select valid moment conditions $g_j$ of following forms
+         \begin{enumerate}[label=(\roman*)]
+             \item $E(z_t w_{t,j})=0$;
+             \item $E(w_{t,j}\varepsilon_t)=0$;
+             \item $E(z_t w_{t,j})E(w_{t,j}\varepsilon_t)=0$.
+         \end{enumerate}
+    \end{block}
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+    \begin{block}{Theory Continued}
+         The estimated selection vectors are  $\hat{c}_g=I(||\hat{a}_{j}||=0)$, where $\hat{a}$ is minimizer of
+    $$
+    \min_{a}Q(a)=T\sum_{j=1}^{p_{w}}\left(||\hat g_j-a_{j}||^{2}+2\lambda_{g,j}\sqrt{a'_{j}a_{j}}\right),
+    $$
+
+    where $\hat g_j$ is the sample analog of the moment condition, $\lambda_g$ are $p_{w}\times 1$ vectors of thresholds with elements $\lambda_{g,j}$ and $a_j$ is the $j$th column of $a$.
+    \begin{itemize}[label = \triangle]
+        \item When $\varepsilon_t$ is needed, we use residuals $\hat \varepsilon_t$ from short model.
+    \end{itemize}
+    \textbf{Theorem} With $S_{g}$ the index set for valid moment conditions $g$, $c_g$ the corresponding selection vector, and $S_{g}^{c}=\{1,\cdots,p_{w}\} \setminus S_{g}$, under regularity conditions, if $\sqrt{T}\lambda_{g,j}\xrightarrow{p}\infty$, for $j\in S_{g}$ and $\sqrt{T}\lambda_{g,j}=O_{p}(1)$ for $j\in S_{g}^{c}$, then we have $\hat{c}_g\xrightarrow{a.s.}c_g$.
+
+    \heading{Tuning parameter selection}
+    We consider using BIC type moment condition selection criterion to select the tuning parameter $\lambda$
+    $$
+    \lambda_{g,j} = \frac{\lambda}{||\hat{g}_j||},\quad \text{BIC} = T\sum_{j=1}^{p_{w}}||\hat g_j-\hat a_{j}||^{2} - |\hat c_g|\ln T.
+    $$
+\vspace{-10mm}
+    \heading{Selecting variance-reducing controls}
+    
+    Following \cite{hall2007information}, we propose using the following selection criterion to select the most efficient specification for the parameter of interest:
+    $$ 
+    ESC(c)=\ln \left|\hat{V}_{\beta}(c)\right|+\frac{(|c|-1)\ln(T^{1/2})}{T^{1/2}},
+    $$
+    where $\hat{V}_{\beta}(c)$ is a consistent estimator of the asymptotic variance of $\beta$.
+    
+    \textbf{Theorem} Under regularity conditions, if most parsimonious set of valid and efficiency-increasing controls is $ c_e$ with $\hat c_e$ minimizing $ESC(c)$, then $\hat c_e \xrightarrow{\mathrm{a.s.}} c_e$. 
+    \begin{itemize}[label = \bullet]
+        \item \textbf{Special case 1:} $w_t$ are all IU, as usual in the local projection literature, no selection for validity needed.
+         \item \textbf{Special case 2:} $w_t$ are all EU serving as valid IV thus no selection for validity is needed and the procedure is reduced to \cite{hall2007information}.
+    \end{itemize}
+  \end{block}
+  
+  
+  \begin{block}{Simulation}
+  % Begin of the content to be in parallel
+    \begin{minipage}[c]{0.5\textwidth}
+    \textbf{DGP:}
+     $$
+  y_{t}=\beta_{0}x_{t}+u_{t}, 
+\vspace{-3mm}
+  $$  
+  $$ 
+  x_{t}= z_{t}\gamma_z +  w_{t,1}\gamma_{1}+w_{t,2}\gamma_{2}+v_{t}
+  \vspace{-3mm}
+   $$
+    $$
+  u_{t}=w_{t,3}\gamma_{3}+w_{t,4}\cdot 0+w_{t,5}\cdot 0+e_{t}
+  \vspace{-3mm}
+  $$
+  $$
+    w_{t,6}=\pi_1 u_t + \pi_2w_{t,1} +\eta_{t,1}
+  \vspace{-3mm}
+  $$
+  $$
+    w_{t,7}=\theta_1 u_t + \theta_2z_{t} +\eta_{t,2}
+  \vspace{-3mm}
+  $$
+  \end{minipage}
+  \hfill 
+  \begin{minipage}[c]{0.50\textwidth}
+        \begin{itemize}[label = \bullet]
+            \item adapted from \cite{cheng2015select};
+            \item $w_{t,4}$,$w_{t,5}$ are redundant;
+            \item $E(w_{t,1}z_t)=0$,$E(w_{t,2}z_t)=0$;
+            \item iid errors, allow for heteroskedasiticity and autocorrelated errors.
+            \item $\pi_1$ small compared to $\pi_2$ to make $w_{t,6}$ variance-increasing.
+        \end{itemize}
+        
+  \end{minipage}
+
+\begin{minipage}[c]{0.3\textwidth}
+ \begin{table}
+\caption{IU and EU types}
+\renewcommand{\arraystretch}{1.5}
+\begin{centering}
+\begin{tabular}{ccc}
+\hline 
+ & IU & IC\tabularnewline
+\hline 
+EU & $w_{t,1}$,$w_{t,4}$,$w_{t,5}$ & $w_{t,2}$\tabularnewline
+EC & $w_{t,3}$,$w_{t,6}$ & $w_{t,7}$\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+\centering{}
+\end{table}
+\end{minipage}
+  \hfill
+\begin{minipage}[c]{0.7\textwidth}
+ \begin{table}
+   \renewcommand{\arraystretch}{1.5}
+\begin{centering}
+\caption{Control types}
+\begin{tabular}{c|c|c|c}
+\hline 
+\multicolumn{3}{c|}{type} & control\tabularnewline
+\hline 
+\multirow{4}{*}{valid} & \multirow{2}{*}{variance-reducing} & \textbf{as IV} & \bm{$w_{t,1}$,$w_{t,2}$}\tabularnewline
+\cline{3-4} \cline{4-4} 
+ &  & \textbf{as control} & \bm{$w_{t,3}$}\tabularnewline
+\cline{2-4} \cline{3-4} \cline{4-4} 
+ & \multicolumn{2}{c|}{redundant} & $w_{t,4}$,$w_{t,5}$\tabularnewline
+\cline{2-4} \cline{3-4} \cline{4-4} 
+ & \multicolumn{2}{c|}{variance-increasing} & $w_{t,6}$\tabularnewline
+\hline 
+\multicolumn{3}{c|}{invalid} & $w_{t,7}$\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+\centering{}
+\end{table}
+\end{minipage}
+  
+ 
+  \end{block}
+  
+  \end{column}
+  
+\separatorcolumn
+
+\begin{column}{\colwidth}
+ \begin{block}{Simulation Continued}  
+ \usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% 定义样式
+\tikzset{
+    start/.style={
+        draw, rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, align=center, fill=green!50, text=black, font=\bfseries
+    },
+     input/.style={ 
+        draw, trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=2cm, minimum height=1cm, align=center, fill=purple!20, text=black, text width=5cm, font=\bfseries
+    },
+    stop/.style={
+        draw, rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, align=center, fill=red!50, text=black, font=\bfseries
+    },
+    process/.style={
+        draw, rectangle, minimum width=3cm, minimum height=1cm, align=center, fill=blue!20, text=black, text width=6cm, font=\bfseries
+    },
+    estimate_process/.style={
+        draw, rectangle, minimum width=3cm, minimum height=1cm, align=center, fill=blue!20, text=black, text width=8cm, font=\bfseries
+    },
+    add_control_process/.style={
+        draw, rectangle, minimum width=3cm, minimum height=1cm, align=center, fill=blue!20, text=black, text width=8cm, font=\bfseries
+    },
+    select_process/.style={
+        draw, rectangle, minimum width=3cm, minimum height=1cm, align=center, fill=blue!20, text=black, text width=4cm, font=\bfseries
+    },
+    categorize_process/.style={
+        draw, rectangle, minimum width=3cm, minimum height=1cm, align=center, fill=blue!20, text=black, text width=5cm, font=\bfseries
+    },
+    decision/.style={
+        draw, diamond, aspect=2, minimum width=3cm, minimum height=1cm, align=center, fill=yellow!50, text=black，text width=2cm,font=\bfseries
+    },
+    arrow/.style={
+        thick,->,>=stealth
+    },
+    every node/.style={font=\rmfamily}
+}
+ \vspace{-5mm}
+ \textbf{Implementation algorithm}
+ \vspace{5mm}
+ \\
+\begin{tikzpicture}[node distance=2cm and 1.5cm, auto, scale=0.8, transform shape]  % scale the entire drawing
+
+    % 节点
+    \node (start) [start] {Start};
+    \node (input1) [input, below=of start] {Data input: \bm{$(y_t,x_t,z_t,w_t)$}.};
+    \node (validity) [decision, below=of input1] {Known \\IU, EU types?};  % 判断节点
+    \node (estimate_short) [process, right=of validity] {Estimate short model; \\get residuals.};
+    \node (Add_controls) [add_control_process, below=of validity] {Add IUEU,ICEU as moments;\\ add ECIU as control;\\throw out ECIC.};
+    \node (estimate) [estimate_process, right=of Add_controls] {Estimate \bm{$2^{|\text{IUEU}|+|\text{ICEU}|}\times 2^{|\text{IUEC}|}$} specifications;\\ Calculate ESC.} ;
+    \node (select) [select_process, right=of estimate_short] {Select \\IU(IC),\\EU(EC).};
+    \node (categorize) [categorize_process, right=of select] {Categorize: \\IUEU,IUEC,\\ICEU,ICEC.};  % Adjusted position
+    \node (find) [process, right=of estimate] {Find ESC minimized specification.};
+    \node (stop) [stop, right=of find] {Stop};
+
+    % 箭头
+    \draw [arrow] (start) -- (input1);
+    \draw [arrow] (input1) -- (validity);
+    \draw [arrow] (validity) -- node[above] {No} (estimate_short);
+    \draw [arrow] (estimate_short) -- (select)
+    \draw [arrow] (select) -- (categorize);
+    \draw [arrow] (validity) -- node[left] {Yes} (Add_controls);
+    % Improved path with straight and smooth turns
+    \draw [arrow] (categorize.south) -- ++(0,-2) -| (Add_controls);
+    \draw [arrow] (Add_controls) -- (estimate);
+    \draw [arrow] (estimate) -- (find);
+    \draw [arrow] (find) -- (stop);
+
+\end{tikzpicture}
+        \begin{table}
+        \renewcommand{\arraystretch}{1.5}
+        \renewcommand*\familydefault{\sfdefault}
+        \caption{Selection probabilities}
+         \vspace{-3mm}
+        \begin{centering}
+        \begin{tabular}{cccccc}
+        \hline 
+        Sample size & $P(\text{IU})$ & $P(\text{EU})$ & $P(\text{IU\&EU})$ & $P(\text{Efficient|IU\&EU})$ & $P(\text{Efficient})$\tabularnewline
+        \hline 
+        $T=500$ & 0.8220 & 0.8870 & 0.7360 & 0.9850 & 0.8720\tabularnewline
+        $T=1000$ & 0.9810 & 0.9580 & 0.9390 & 0.9970 & 0.9530\tabularnewline
+        $T=2000$ & 0.9990 & 0.9930 & 0.9920 & 0.9980 & 0.9900\tabularnewline
+        \hline 
+        \end{tabular}
+        \par\end{centering}
+        \centering{}
+        \end{table}
+     \vspace{-5mm}
+    \begin{table}
+    \renewcommand{\arraystretch}{1.5}
+    \renewcommand*\familydefault{\sfdefault}
+     \begin{centering}
+     \caption{Estimation results comparison}
+     \vspace{-3mm}
+    \begin{tabular}{ccccccc}
+    \hline 
+     & \multicolumn{3}{c}{$T=500$} & \multicolumn{3}{c}{$T=1000$}\tabularnewline
+    \hline 
+     & Bias & SD & RMSE & Bias & SD & RMSE\tabularnewline
+    Selected | IU\&EU & 0.0008 & 0.0412 & 0.0411 & 0.0028 & 0.0266 & 0.0268\tabularnewline
+    \textbf{Selected} & \textbf{-0.0019} & \textbf{0.0509} & \textbf{0.0509} & \textbf{0.0013} & \textbf{0.0314} & \textbf{0.0314}\tabularnewline
+    Short & -0.0018 & 0.0991 & 0.0990 & -0.0003 & 0.0683 & 0.0683\tabularnewline
+    Oracle & 0.0003 & 0.0407 & 0.0407 & 0.0027 & 0.0266 & 0.0267\tabularnewline
+    \hline 
+    \end{tabular}
+    \par\end{centering}
+    \centering{}
+    \end{table}
+
+ \end{block}
+
+
+    \begin{block}{Conclusions and future research}
+    \vspace{-2mm}
+         \begin{itemize}[label = \hookrightarrow]
+            \item We consider adding controls to a short model to increase efficiency of a target parameter.
+            \item The proposed procedure effectively selects valid and variance-reducing controls.
+            \item Extension to high dimension for special cases.
+            \item Extension to weak identification.
+            \item Applications for local projection.
+        \end{itemize}
+    \end{block}
+
+\begin{block}{References}
+\bibliography{poster}
+\end{block}
+
+\end{column}
+
+\separatorcolumn
+\end{columns}
+\end{frame}
+
+\end{document}

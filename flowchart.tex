@@ -1,0 +1,27 @@
+
+\begin{document}
+
+\begin{tikzpicture}[node distance=2.5cm and 2cm, auto, scale=0.8, transform shape]  % scale the entire drawing
+
+    % 节点
+    \node (start) [startstop] {Start};
+    \node (input1) [input, right=of start] {data $(y_t,x_t,w_t)$};
+    \node (estimate_short) [process, right=of input1] {Estimate short model; get residuals};
+    \node (select) [process, right=of estimate_short] {Select EU(EC), IU(IC)};
+    \node (categorize) [process, below=of start] {Categorize: EUIU, EUIC, ECIU, ECIC};  % Adjusted position
+    \node (estimate) [process, right=of categorize] {Estimate $2^{|EUIU+EUIC|}\times 2^{ECIU}$ specifications} ;
+    \node (find) [process, right=of estimate] {Find ESC minimized specification};
+    \node (stop) [startstop, right=of find] {Stop};
+
+    % 箭头
+    \draw [arrow] (start) -- (input1);
+    \draw [arrow] (input1) -- (estimate_short);
+    \draw [arrow] (estimate_short) -- (select);
+    \draw [arrow] (select) -- ++(0,-1) -| (categorize);  % Improved curved line
+    \draw [arrow] (categorize) -- (estimate);
+    \draw [arrow] (estimate) -- (find);
+    \draw [arrow] (find) -- (stop);
+
+\end{tikzpicture}
+
+\end{document}

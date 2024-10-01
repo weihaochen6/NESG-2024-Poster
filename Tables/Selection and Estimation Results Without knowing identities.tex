@@ -1,0 +1,41 @@
+%% LyX 2.3.6.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,lmargin=20mm,rmargin=20mm}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\begin{table}
+Selected Probability(SP), Finite sample bias (BS), Standard Deviation
+(SD) and RMSE (RE):
+\begin{centering}
+\begin{tabular}{cccccccccc}
+\hline 
+ & \multicolumn{3}{c}{$T=500$} & \multicolumn{3}{c}{$T=1000$} & \multicolumn{3}{c}{$T=2000$}\tabularnewline
+\hline 
+ & BS & SD & RE & BS & SD & RE & BS & SD & RE\tabularnewline
+Selected with knowing types & 0.0008 & 0.0412 & 0.0411 & 0.0028 & 0.0266 & 0.0268 & 0.0009 & 0.0193 & 0.0193\tabularnewline
+Selected with adaptive lasso selection & -0.0019 & 0.0509 & 0.0509 & 0.0013 & 0.0314 & 0.0314 & 0.0009 & 0.0205 & 0.0205\tabularnewline
+Conservative GMM & -0.0018 & 0.0991 & 0.0990 & -0.0003 & 0.0683 & 0.0683 & 0.0016 & 0.0467 & 0.0467\tabularnewline
+Oracle GMM without valid control & 0.0015 & 0.0493 & 0.0493 & 0.0029 & 0.0338 & 0.0339 & 0.0009 & 0.0235 & 0.0235\tabularnewline
+Oracle GMM with valid control & 0.0003 & 0.0407 & 0.0407 & 0.0027 & 0.0266 & 0.0267 & 0.0009 & 0.0193 & 0.0193\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+\centering{}\caption{Estimation results comparison}
+\end{table}
+
+\end{document}
